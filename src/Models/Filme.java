@@ -34,4 +34,10 @@ public class Filme {
     public void setGenero(String genero) {
         this.genero = genero;
     }
+
+    public void exibirRelatorioFilme(){
+        System.out.println("\nNome: "+this.nome);
+        System.out.println("\nDuração: "+duracao+" minutos");
+        System.out.println("\nGênero: "+genero);
+    }
 }
