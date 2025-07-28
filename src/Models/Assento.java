@@ -1,57 +1,33 @@
 package Models;
 
 public class Assento {
-    protected String[] fileira; //A-T
-    protected String[] cadeira; //1-10
-    protected String status; //livre ou ocupado
-    protected int contFileira=0;
-    protected int contCadeira=0;
+    protected char fileira; //A-T
+    protected int numero;// 1-10
+    protected boolean status; //livre ou ocupado
 
-    public Assento(String fileira, String cadeira, String status){
-        this.fileira[contFileira] = fileira;
-        this.cadeira[contCadeira] = cadeira;
-        this.status = status;
-        contFileira++;
-        contCadeira++;
+    public Assento(char fileira, int numero){
+        this.fileira = fileira;
+        this.numero = numero;
+        this.status = false;
     }
 
-    public String[] getFileira() {
+    public char getFileira() {
         return fileira;
     }
 
-    public String[] getCadeira() {
-        return cadeira;
+    public int getCadeira() {
+        return numero;
     }
 
-    public String getStatus() {
+    public boolean isOcupado() {
         return status;
     }
 
-    public int getContFileira() {
-        return contFileira;
+    public void ocupar(){
+        this.status = true;
     }
 
-    public int getContCadeira() {
-        return contCadeira;
-    }
-
-    public void setFileira(String[] fileira) {
-        this.fileira = fileira;
-    }
-
-    public void setCadeira(String[] cadeira) {
-        this.cadeira = cadeira;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public void setContFileira(int contFileira) {
-        this.contFileira = contFileira;
-    }
-
-    public void setContCadeira(int contCadeira) {
-        this.contCadeira = contCadeira;
+    public void liberar(){
+        this.status = false;
     }
 }
