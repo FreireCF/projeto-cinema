@@ -6,10 +6,11 @@ public class Ingresso {
     protected Assento[][] assentos;
     protected double precoFinal;
 
-    public Ingresso(Pessoa pessoa, Sala sala, Assento[][] assentos){
+    public Ingresso(Pessoa pessoa, Sala sala, Assento assento, double precoFinal){
         this.pessoa = pessoa;
         this.sala = sala;
         this.assentos = assentos;
+        this.precoFinal = precoFinal;
     }
 
 

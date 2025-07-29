@@ -13,6 +13,15 @@ public class Cinema {
         return this.salas;
     }
 
+    public Sala getSalaPorNum(int num){
+        for(Sala s : salas){
+            if(s.getNumSala() == num){
+                return s;
+            }
+        }
+        return null;
+    }
+
     public void cadastrarSala(Sala s){
         salas.add(s);
     }
@@ -108,27 +117,29 @@ public class Cinema {
             return naoAlocados;
     }
 
-    public void alocarFilmeEmSala(int numSala, String tituloF){
+    public void alocarFilmeEmSala(int numSala, String tituloF) {
         Filme filmeEncontrado = null;
-        for(Filme f: filmes){
-            if(f.getTitulo().equalsIgnoreCase(tituloF)){
+        boolean alocou = false;
+        for (Filme f : filmes) {
+            if (f.getTitulo().equalsIgnoreCase(tituloF)) {
                 filmeEncontrado = f;
             }
         }
 
-        if (filmeEncontrado == null){
-            System.out.println("\nFilme "+tituloF+" não encontrado");
+        if (filmeEncontrado == null) {
+            System.out.println("\nFilme " + tituloF + " não encontrado");
             return;
         }
 
-        for(Sala s: salas){
-            if(s.getNumSala() == numSala){
+        for (Sala s : salas) {
+            if (s.getNumSala() == numSala) {
                 s.setFilme(filmeEncontrado);
-                System.out.println("\nFilme "+filmeEncontrado.getTitulo() + " alocado na sala " + numSala);
+                System.out.println("\nFilme " + filmeEncontrado.getTitulo() + " alocado na sala " + numSala);
+                alocou = true;
             }
         }
-
-        System.out.println("Sala "+numSala+" não encontrada");
+        if (!alocou) {
+            System.out.println("Sala " + numSala + " não encontrada");
+        }
     }
-
 }

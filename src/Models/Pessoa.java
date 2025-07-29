@@ -5,6 +5,8 @@ public class Pessoa {
     protected int idade;
     protected String categoria;
 
+    public Pessoa(){}
+
     public Pessoa(String nome, int idade, String categoria){
         this.nome = nome;
         this.idade = idade;
@@ -39,6 +41,19 @@ public class Pessoa {
             return;
         }
         this.categoria = categoria;
+    }
+
+    public double calcularDesconto(double precoBase) {
+        switch (categoria.toLowerCase()) {
+            case "estudante":
+                return precoBase * 0.5;
+            case "idoso":
+                return 0;
+            case "professor":
+                return precoBase * 0.7;
+            default:
+                return precoBase;
+        }
     }
 
     public boolean validarCategoria(String categoria){

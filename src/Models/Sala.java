@@ -27,6 +27,16 @@ public class Sala {
         return assentos;
     }
 
+    public Assento getAssento(char fileira, int numero) { //assento específico
+        int linha = fileira--;
+        int coluna = numero--;
+
+        if (linha >= 0 && linha < 20 && coluna >= 0 && coluna < 10) {
+            return assentos[linha][coluna];
+        } else {
+            return null;
+        }
+    }
     public Filme getFilme(){
         return filme;
     }
@@ -39,16 +49,7 @@ public class Sala {
         this.filme = filme;
     }
 
-//    public Assento getAssento(char fileira, int numero) { //assento específico, provavelmtene n usarei
-//        int linha = fileira - 'A';
-//        int coluna = numero - 1;
-//
-//        if (linha >= 0 && linha < 20 && coluna >= 0 && coluna < 10) {
-//            return assentos[linha][coluna];
-//        } else {
-//            return null;
-//        }
-//    }
+
 
 
 }
