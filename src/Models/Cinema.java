@@ -5,9 +5,9 @@ import java.util.ArrayList;
 public class Cinema {
     protected List<Sala> salas = new ArrayList<>();
     protected List<Filme> filmes = new ArrayList<>();
+    private List<Ingresso> historico = new ArrayList<>();
 
-    public Cinema() {
-    }
+    public Cinema() {}
 
     public List<Sala> getSalas(){
         return this.salas;
@@ -44,102 +44,76 @@ public class Cinema {
         filmes.add(filme);
     }
 
-    public void relatorioDaSala(int numSala) {
-        for (Sala s : salas) {
-            if(s.getNumSala() == numSala){
-                System.out.println("===================================");
-                System.out.println("Sala: " + s.getNumSala());
+    public List<Filme> exibirFilmesNaoAlocados(){
+        List<Filme> naoAlocados = new ArrayList<>(filmes);
+        for(Sala s : salas){
+            if(s.getFilme() != null){
+                naoAlocados.remove(s.getFilme());
+            }
+        }
+        return naoAlocados;
+    }
 
-                Filme filme = s.getFilme();
-                if (filme != null) {
-                    System.out.println("Filme: " + filme.getTitulo());
-                } else {
-                    System.out.println("Sem filme alocado");
+    public void alocarFilmeEmSala(int numeroSala, String nomeFilme){
+        Sala sala = getSalaPorNum(numeroSala);
+        for(Filme f : filmes){
+            if(f.getTitulo().equalsIgnoreCase(nomeFilme)){
+                if (sala != null) {
+                    sala.setFilme(f);
                 }
-
-                Assento[][] assentos = s.getAssentos();
-                int ocupados = 0;
-                int livres = 0;
-
-                System.out.println("\nMapa de assentos:");
-                System.out.print("   ");
-                for (int i = 1; i <= 10; i++) {
-                    System.out.printf("%2d ", i);
-                }
-                System.out.println();
-
-                for (int i = 0; i < assentos.length; i++) {
-                    System.out.printf("%2c ", (char) ('A' + i)); //  fileira
-                    for (int j = 0; j < assentos[i].length; j++) {
-                        if (assentos[i][j].isOcupado()) {
-                            System.out.print(" X ");
-                            ocupados++;
-                        } else {
-                            System.out.print(" O ");
-                            livres++;
-                        }
-                    }
-                    System.out.println();
-                }
-
-                System.out.println("\nAssentos ocupados: " + ocupados);
-                System.out.println("\nAssentos livres:   " + livres);
-                System.out.println("===================================\n");
+                break;
             }
         }
     }
 
-
-//    public void exibirFilmesAlocados() {
-//        for (Sala s : salas) {
-//                if (s != null) {
-//                    s.getFilme();
-//            }
-//        }
-//    }
-
-    public List<Filme> exibirFilmesNaoAlocados() {
-            List<Filme> naoAlocados = new ArrayList<>();
-
-            for (Filme f : filmes) {
-                boolean alocado = false;
-                for (Sala s : salas) {
-                    if (s.getFilme() != null && s.getFilme().equals(f)) {
-                        alocado = true;
-                        break;
-                    }
-                }
-                if (!alocado) {
-                    naoAlocados.add(f);
-                }
-            }
-
-            return naoAlocados;
+    public void relatorioDaSala(int numeroSala){
+        Sala sala = getSalaPorNum(numeroSala);
+        if(sala != null){
+            System.out.println("Sala " + sala.getNumSala());
+            System.out.println("Filme: " + (sala.getFilme() != null ? sala.getFilme().getTitulo() : "Nenhum"));
+            sala.mostrarAssentos();
+        } else {
+            System.out.println("Sala não encontrada.");
+        }
     }
 
-    public void alocarFilmeEmSala(int numSala, String tituloF) {
-        Filme filmeEncontrado = null;
-        boolean alocou = false;
-        for (Filme f : filmes) {
-            if (f.getTitulo().equalsIgnoreCase(tituloF)) {
-                filmeEncontrado = f;
+    public void registrarCompra(Ingresso ingresso){
+        historico.add(ingresso);
+    }
+
+    public List<Ingresso> getHistorico(){
+        return historico;
+    }
+
+    public List<Ingresso> getHistoricoPorSala(int numSala){
+        List<Ingresso> list = new ArrayList<>();
+        for (Ingresso i : historico) {
+            if (i.getSala() != null && i.getSala().getNumSala() == numSala) {
+                list.add(i);
             }
         }
+        return list;
+    }
 
-        if (filmeEncontrado == null) {
-            System.out.println("\nFilme " + tituloF + " não encontrado");
-            return;
-        }
-
-        for (Sala s : salas) {
-            if (s.getNumSala() == numSala) {
-                s.setFilme(filmeEncontrado);
-                System.out.println("\nFilme " + filmeEncontrado.getTitulo() + " alocado na sala " + numSala);
-                alocou = true;
+    public List<Ingresso> getHistoricoPorPessoa(String nome){
+        List<Ingresso> list = new ArrayList<>();
+        for (Ingresso i : historico) {
+            if (i.getPessoa() != null && i.getPessoa().getNome().equalsIgnoreCase(nome)) {
+                list.add(i);
             }
         }
-        if (!alocou) {
-            System.out.println("Sala " + numSala + " não encontrada");
+        return list;
+    }
+
+    public double getTotalFaturado(){
+        double total = 0.0;
+        for (Ingresso i : historico) {
+            total += i.getPrecoFinal();
         }
+        return total;
+    }
+
+    public int getTotalIngressosVendidos(){
+        return historico.size();
     }
 }

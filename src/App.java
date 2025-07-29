@@ -2,6 +2,7 @@ import Models.*;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+import java.time.format.DateTimeFormatter;
 
 public class App {
     public static void main(String[] args) {
@@ -9,6 +10,7 @@ public class App {
         Cinema cinema = new Cinema();
         Menu menu = new Menu();
         byte opc = -1;
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
         do {
             menu.exibir();
@@ -138,11 +140,32 @@ public class App {
                             double precoBase = 15;
                             double precoFinal = pessoa.calcularDesconto(precoBase);
                             Ingresso ingresso = new Ingresso(pessoa, sala, assen, precoFinal);
+                            cinema.registrarCompra(ingresso);
                             System.out.printf("Ingresso comprado! Valor final: R$ %.2f\n", precoFinal);
                         }
                         break;
 
-
+                    case 6:
+                        List<Ingresso> historico = cinema.getHistorico();
+                        if (historico.isEmpty()) {
+                            System.out.println("Nenhuma compra registrada.");
+                        } else {
+                            System.out.println("\nHistórico de compras:");
+                            for (Ingresso ing : historico) {
+                                String data = ing.getDataHora().format(fmt);
+                                String nomePessoa = ing.getPessoa() != null ? ing.getPessoa().getNome() : "-";
+                                String cat = ing.getPessoa() != null ? ing.getPessoa().getCategoria() : "-";
+                                int salaNum = ing.getSala() != null ? ing.getSala().getNumSala() : -1;
+                                char fil = ing.getAssento() != null ? ing.getAssento().getFileira() : '?';
+                                int cad = ing.getAssento() != null ? ing.getAssento().getCadeira() : -1;
+                                double valor = ing.getPrecoFinal();
+                                System.out.printf("%s | Sala %d | Assento %c%d | %s (%s) | R$ %.2f%n",
+                                        data, salaNum, fil, cad, nomePessoa, cat, valor);
+                            }
+                            System.out.printf("Total de ingressos: %d | Faturamento: R$ %.2f%n",
+                                    cinema.getTotalIngressosVendidos(), cinema.getTotalFaturado());
+                        }
+                        break;
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Entrada inválida. Por favor, revise os dados e tente novamente.");

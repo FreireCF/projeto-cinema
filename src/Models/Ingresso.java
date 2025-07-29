@@ -1,16 +1,20 @@
 package Models;
 
+import java.time.LocalDateTime;
+
 public class Ingresso {
     protected Pessoa pessoa;
     protected Sala sala;
     protected Assento assento;
     protected double precoFinal;
+    protected LocalDateTime dataHora;
 
     public Ingresso(Pessoa pessoa, Sala sala, Assento assento, double precoFinal) {
         this.pessoa = pessoa;
         this.sala = sala;
         this.assento = assento;
         this.precoFinal = precoFinal;
+        this.dataHora = LocalDateTime.now();
     }
 
     public Pessoa getPessoa() {
@@ -29,6 +33,10 @@ public class Ingresso {
         return precoFinal;
     }
 
+    public LocalDateTime getDataHora() {
+        return dataHora;
+    }
+
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
     }
@@ -43,5 +51,9 @@ public class Ingresso {
 
     public void setPrecoFinal(double precoFinal) {
         this.precoFinal = precoFinal;
+    }
+
+    public void setDataHora(LocalDateTime dataHora) {
+        this.dataHora = dataHora;
     }
 }
