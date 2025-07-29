@@ -3,16 +3,15 @@ package Models;
 public class Ingresso {
     protected Pessoa pessoa;
     protected Sala sala;
-    protected Assento[][] assentos;
+    protected Assento assento;
     protected double precoFinal;
 
-    public Ingresso(Pessoa pessoa, Sala sala, Assento assento, double precoFinal){
+    public Ingresso(Pessoa pessoa, Sala sala, Assento assento, double precoFinal) {
         this.pessoa = pessoa;
         this.sala = sala;
-        this.assentos = assentos;
+        this.assento = assento;
         this.precoFinal = precoFinal;
     }
-
 
     public Pessoa getPessoa() {
         return pessoa;
@@ -22,8 +21,8 @@ public class Ingresso {
         return sala;
     }
 
-    public Assento[][] getAssentos() {
-        return assentos;
+    public Assento getAssento() {
+        return assento;
     }
 
     public double getPrecoFinal() {
@@ -38,8 +37,8 @@ public class Ingresso {
         this.sala = sala;
     }
 
-    public void setAssentos(Assento[][] assentos) {
-        this.assentos = assentos;
+    public void setAssento(Assento assento) {
+        this.assento = assento;
     }
 
     public void setPrecoFinal(double precoFinal) {

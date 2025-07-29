@@ -5,14 +5,16 @@ public class Pessoa {
     protected int idade;
     protected String categoria;
 
-    public Pessoa(){}
+    public Pessoa() {}
 
     public Pessoa(String nome, int idade, String categoria){
         this.nome = nome;
         this.idade = idade;
-        if(!validarCategoria(categoria)){
-            return;
+
+        if (!validarCategoria(categoria)) {
+            throw new IllegalArgumentException("Categoria inválida: " + categoria);
         }
+
         this.categoria = categoria;
     }
 
@@ -37,8 +39,8 @@ public class Pessoa {
     }
 
     public void setCategoria(String categoria){
-        if(!validarCategoria(categoria)){
-            return;
+        if (!validarCategoria(categoria)) {
+            throw new IllegalArgumentException("Categoria inválida: " + categoria);
         }
         this.categoria = categoria;
     }
@@ -48,7 +50,11 @@ public class Pessoa {
             case "estudante":
                 return precoBase * 0.5;
             case "idoso":
-                return 0;
+                if (idade >= 60) {
+                    return 0.0;
+                } else {
+                    return precoBase;
+                }
             case "professor":
                 return precoBase * 0.7;
             default:
@@ -56,11 +62,12 @@ public class Pessoa {
         }
     }
 
-    public boolean validarCategoria(String categoria){
-        if(categoria.toUpperCase().equals("NORMAL") || categoria.toUpperCase().equals("ESTUDANTE") || categoria.toUpperCase().equals("IDOSO") || categoria.toUpperCase().equals("PROFESSOR")){
-            System.out.println("\nCategoria inválida");
-            return false;
-        }
-        return true;
+
+    private boolean validarCategoria(String categoria) {
+        return categoria != null &&
+                (categoria.equalsIgnoreCase("normal") ||
+                        categoria.equalsIgnoreCase("estudante") ||
+                        categoria.equalsIgnoreCase("idoso") ||
+                        categoria.equalsIgnoreCase("professor"));
     }
 }

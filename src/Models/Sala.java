@@ -19,17 +19,17 @@ public class Sala {
         }
     }
 
-    public int getNumSala(){
+    public int getNumSala() {
         return numSala;
     }
 
-    public Assento[][] getAssentos(){
+    public Assento[][] getAssentos() {
         return assentos;
     }
 
-    public Assento getAssento(char fileira, int numero) { //assento específico
-        int linha = fileira--;
-        int coluna = numero--;
+    public Assento getAssento(char fileira, int numero) {
+        int linha = fileira - 'A';
+        int coluna = numero - 1;
 
         if (linha >= 0 && linha < 20 && coluna >= 0 && coluna < 10) {
             return assentos[linha][coluna];
@@ -37,19 +37,26 @@ public class Sala {
             return null;
         }
     }
-    public Filme getFilme(){
+
+    public Filme getFilme() {
         return filme;
     }
 
-    public void setNumSala(int numSala){
-        this.numSala = numSala;
-    }
-
-    public void setFilme(Filme filme){
+    public void setFilme(Filme filme) {
         this.filme = filme;
     }
 
+    public void adicionarIngresso(Ingresso ingresso) {
+    }
 
-
-
+    public void mostrarAssentos() {
+        for (int i = 0; i < assentos.length; i++) {
+            for (int j = 0; j < assentos[i].length; j++) {
+                Assento a = assentos[i][j];
+                String status = a.isOcupado() ? "X" : "O";
+                System.out.print(a.getFileira() + "" + a.getCadeira() + "(" + status + ") ");
+            }
+            System.out.println();
+        }
+    }
 }
